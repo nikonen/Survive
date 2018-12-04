@@ -60,8 +60,6 @@ import systems.Gui;
 import systems.InventorySlot;
 import systems.InventorySystem2;
 import systems.ItemSystem;
-import utils.Destroy;
-import utils.FrameRate;
 import utils.ItemCreator;
 
 public class GameScreen extends ApplicationAdapter implements Screen, InputProcessor {
@@ -121,61 +119,34 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
 		batch = new SpriteBatch();
 		Box2D.init();
 		world = new World(new Vector2(0, 0), false);
-		player = new Player(world, batch);
+		player = new Player(world, batch, inv2);
 		mapper = new Mapper(null, world);
 		shape = new ShapeRenderer();
 		control = new Control(25, 25, camera, player, world, mapper, gui);
 		// Gdx.input.setInputProcessor(control);
 
-		Item item = new Item();
-		item = itemSystem.getItemByName("stoneAxe");
-		player.getInventory().addItem(item);
 		
 		item2 = itemSystem.getItemByName("stoneAxe");
-		inv2.addItem(item2);
-		inv2.addItem(item2);
-		
-		item2 = itemSystem.getItemByName("club");
-		inv2.addItem(item2);
-		inv2.addItem(item2);
+		player.getInventory2().addItem(item2);
+		player.getInventory2().addItem(item2);
+		player.getInventory2().addItem(item2);
 		
 		item2 = itemSystem.getItemByName("knife");
-		inv2.addItem(item2);
-		inv2.addItem(item2);
+		player.getInventory2().addItem(item2);
 		
-		item2 = itemSystem.getItemByName("stoneAxe");
-		inv2.addItem(item2);
-		inv2.addItem(item2);
 		
-		item2 = itemSystem.getItemByName("stoneAxe");
-		inv2.addItem(item2);
-		inv2.addItem(item2);
-		
-		item2 = itemSystem.getItemByName("knife");
-		inv2.addItem(item2);
-		inv2.addItem(item2);
-		
-		item2 = itemSystem.getItemByName("stone");
-		inv2.addItem(item2);
-		inv2.addItem(item2);
-		
-		item2 = itemSystem.getItemByName("stone");
-		inv2.addItem(item2);
-		inv2.addItem(item2);
-		
-		inv2.getItems();
 		ArrayList<InventorySlot> inventory = new ArrayList<InventorySlot>();
-		inventory = inv2.getItems();
-		for(int i = 0; i < inventory.size() - 1; i++) {
+		inventory = player.getInventory2().getItems();
+		for(int i = 0; i < inventory.size(); i++) {
 			
 				if (!inventory.get(i).isEmpty()) {
 					System.out.println("stack nro. " + i + " stack count: "+inventory.get(i).getCount() +" " + inventory.get(i).getItem(i));
+					System.out.println(" - - - - index: " + i + " size: "+inventory.size());
 				}
 				
 			
 		}
 
-		player.getInventory().listItems();
 		gui = new Gui(player, this);
 		multi.addProcessor(gui.getStage());
 		
@@ -233,9 +204,9 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
 
 		debugRenderer.render(world, camera.combined);
 
-		if (Gdx.input.isKeyJustPressed(Keys.T)) {
+		/** if (Gdx.input.isKeyJustPressed(Keys.T)) {
 			gui.listInventory();
-		}
+		} **/
 		
 		if (Gdx.input.isKeyJustPressed(Keys.Q)) {
 			game.setScreen(new InventoryScreen(player, game, this));

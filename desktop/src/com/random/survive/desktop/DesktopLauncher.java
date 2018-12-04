@@ -7,8 +7,8 @@ import com.random.survive.Survive;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1440;
-	    config.height = 900;
+		config.width = 800;
+	    config.height = 600;
 		new LwjglApplication(new Survive(), config);
 
 	}

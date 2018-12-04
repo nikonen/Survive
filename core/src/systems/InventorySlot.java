@@ -1,5 +1,7 @@
 package systems;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.utils.Array;
 
 import objects.Entity;
@@ -8,14 +10,14 @@ import objects.Item;
 public class InventorySlot {
 
 	static final int MAX_STACK = 16;
-	public Array<Entity> stack;
+	public ArrayList<Entity> stack;
 	String name;
 
 	public InventorySlot() {
-		stack = new Array<Entity>();
+		stack = new ArrayList<Entity>();
 	}
 
-	public Array<Entity> getItemStack() {
+	public ArrayList<Entity> getItemStack() {
 		return this.stack;
 	}
 
@@ -25,16 +27,16 @@ public class InventorySlot {
 
 	public String getType() {
 
-		return this.stack.first().toString();
+		return this.stack.get(0).toString();
 
 	}
 	
 	public boolean isEmpty() {
-		return this.stack.size == 0;
+		return this.stack.size() == 0;
 	}
 	
 	public int getCount() {
-		return this.stack.size;
+		return this.stack.size();
 	}
 	
 	public InventorySlot getItems() {
@@ -42,7 +44,10 @@ public class InventorySlot {
 	}
 	
 	public Item getItem(int index) {
-		return (Item) this.stack.get(index);
+
+			return (Item) this.stack.get(0);
+
+
 	}
 
 }

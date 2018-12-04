@@ -41,16 +41,15 @@ public class Player extends Sprite {
 	public Animation<TextureRegion> swingingAnim;
 	public boolean swinging;
 	public float stateTime = 0; // animation state time
-	public InventorySystem inventory;
 	public InventorySystem2 inventory2;
 	public Item onHand;
 
-	public Player(World world, SpriteBatch batch) {
+	public Player(World world, SpriteBatch batch, InventorySystem2 inv) {
 		currentFrame = new TextureRegion();
 		swinging = false;
 		anim = new TextureAtlas(Gdx.files.internal("swinging.txt"));
 		swingingAnim = new Animation<TextureRegion>(0.15f, anim.findRegions("swinging"), PlayMode.NORMAL);
-
+		this.inventory2 = inv;
 		this.batch = batch;
 		this.angle = 0;
 		this.tex = new Texture(Gdx.files.internal("player.png"));
@@ -78,8 +77,6 @@ public class Player extends Sprite {
 		Fixture fixture = body.createFixture(def);
 		body.setTransform(new Vector2(x, y), angle);
 		shape.dispose();
-
-		inventory = new InventorySystem();
 		inventory2 = new InventorySystem2();
 		this.onHand = null;
 
@@ -92,9 +89,6 @@ public class Player extends Sprite {
 
 	}
 
-	public InventorySystem getInventory() {
-		return inventory;
-	}
 	
 	public InventorySystem2 getInventory2() {
 		System.out.println("player get inv: " + this.inventory2.getItems().size());

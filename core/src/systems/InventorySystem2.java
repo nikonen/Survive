@@ -22,16 +22,16 @@ public class InventorySystem2 {
 
 	public void addItem(Entity e) {
 
-		for (int i = 0; i < INV_SIZE - 2; i++) {
+		for (int i = 0; i < this.slots.size(); i++) {
 			if (slots.get(i).isEmpty()) {
 				slots.get(i).addItem(e);
-				System.out.println("Added item " + e + " to slot " + i);
+				System.out.println("Added item " + e + " to stack " + i);
 
 				break;
 				
 			}
 			
-			if (slots.get(i).getType().equals(e.toString()) && slots.get(i).stack.size < slots.get(i).MAX_STACK) {
+			if (slots.get(i).getType().equals(e.toString()) && slots.get(i).stack.size() < slots.get(i).MAX_STACK) {
 				slots.get(i).addItem(e);
 				System.out.println("Added item " + e + " to existing stack " + i);
 				break;
@@ -45,7 +45,7 @@ public class InventorySystem2 {
 
 	public ArrayList<InventorySlot> getItems() {
 		ArrayList<InventorySlot> stackedItems = new ArrayList<InventorySlot>();
-		for (int i = 0; i < INV_SIZE; i++) {
+		for (int i = 0; i < this.slots.size(); i++) {
 			InventorySlot slot = slots.get(i).getItems();
 			stackedItems.add(slot);
 		}

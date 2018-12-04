@@ -65,7 +65,7 @@ public class Control extends InputAdapter implements InputProcessor {
 		if (dist <= maxDist) {
 			player.swing(Gdx.graphics.getDeltaTime());
 			if (remove.getTileType() != null) {
-				player.getInventory().addItem(itemSystem.getItemByName(remove.getName()));
+				player.getInventory2().addItem(itemSystem.getItemByName(remove.getName()));
 				System.out.println("Got one " + remove.getTileType());
 				remove.setNull((int)remove.x,(int)remove.y);
 			}

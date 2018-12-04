@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import map.Enums.TileType;
 import utils.BodyBuilder;
-import utils.Destroy;
 
 public class Tile {
 
@@ -23,7 +22,6 @@ public class Tile {
 	TileType tiletype;
 	Chunk chunk;
 	BodyBuilder builder;
-	Destroy bool;
 	public static ArrayList<Body> toBeDestroyed;
 	public Tile (float x, float y, float size, Color color, Enums.TileType type, World world) {
 		this.name = type.name().toString().toLowerCase();

@@ -20,20 +20,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.random.survive.Survive;
 
 import objects.Player;
 import systems.InventorySlot;
-import systems.InventorySystem;
 import systems.InventorySystem2;
 
 public class InventoryScreen implements Screen {
 
 	public Stage stage;
 	public Table inventory;
-	public InventorySystem inventorySystem;
-	public InventorySystem2 inv2;
+	public InventorySystem2 invSystem;
+	public ArrayList<InventorySlot> inv3;
 	public Player player;
 	public Survive game;
 	public Screen parent;
@@ -52,8 +50,9 @@ public class InventoryScreen implements Screen {
 	public InventoryScreen(Player player, Survive game, Screen parent) {
 
 		this.player = player;
-		this.inventorySystem = player.getInventory();
-		this.inv2 = player.getInventory2();
+		this.invSystem = player.getInventory2();
+		this.inv3 = new ArrayList<InventorySlot>();
+		
 		this.game = game;
 		this.parent = parent;
 		this.stage = new Stage();
@@ -70,18 +69,17 @@ public class InventoryScreen implements Screen {
 		buttonStyle.font = font2;
 
 		this.inventory = new Table();
+		this.inventory.setFillParent(true);
 		this.scroll = new ScrollPane(inventory, skin);
 		scroll.setFillParent(true);
-		scroll.setDebug(true);
-		inventory.setDebug(true);
 
 		scroll.layout();
 		inventory.pack();
 		this.inventory.left().top();
 		this.stage.addActor(scroll);
 		System.out.println("inventory screen");
-
-		showInventory2();
+		this.inv3 = player.inventory2.getItems();
+		this.showInventory2();
 		Gdx.input.setInputProcessor(this.stage);
 
 	}
@@ -94,42 +92,22 @@ public class InventoryScreen implements Screen {
 
 	}
 
-	/** public void showInventory() {
 
-		for (int i = 0; i < inventorySystem.getItems().size(); i++) {
-
-			Button button = new TextButton("Use", skin);
-			Button button2 = new TextButton("Drop", skin);
-			Button button3 = new TextButton("Examine", skin);
-			
-			button.setTransform(true);
-			button2.setTransform(true);
-			button3.setTransform(true);
-
-			button.setScale(0.3f);
-
-
-			LabelStyle labels = new LabelStyle();
-			labels.font = font2;
-			labels.fontColor = com.badlogic.gdx.graphics.Color.BLACK;
-			Label label = new Label(inventorySystem.getItem(i).name, labels);
-
-			inventory.add(label);
-		
-			inventory.add(button);
-			inventory.add(button2);
-			inventory.add(button3);
-			
-			inventory.row();
-
-			
-		}
-	} **/
-	
 	public void showInventory2() {
 
+		
+		for(int i = 0; i < inv3.size(); i++) {
+			
+			if (!inv3.get(i).isEmpty()) {
+				System.out.println("stack nro. " + i + " stack count: "+inv3.get(i).getCount() +" " + inv3.get(i).getItem(i));
+			}
+			
+		
+	}
+		
 		ArrayList<InventorySlot> invSlots = new ArrayList<InventorySlot>();
-		invSlots = inv2.getItems();
+		invSlots = invSystem.getItems();
+		System.out.println(invSlots.size());
 		for (int i = 0; i < invSlots.size(); i++) {
 
 			Button button = new TextButton("Use", skin);
@@ -145,15 +123,14 @@ public class InventoryScreen implements Screen {
 			labels.fontColor = com.badlogic.gdx.graphics.Color.BLACK;
 			
 			if (!invSlots.get(i).isEmpty()) {
-				Label label = new Label("item: "+invSlots.get(i).getItem(i).name, labels);
+				Label label = new Label("item: "+invSlots.get(i).getItem(i).name +" x " + invSlots.get(i).getCount(), labels);
 				System.out.println("stack nro. " + i + " stack count: "+invSlots.get(i).getCount());
 				
-
+				
 				inventory.add(label);
-			
-				inventory.add(button).expand().top().right();
-				//inventory.add(button2);
-				//inventory.add(button3);
+				inventory.add(button);
+				inventory.add(button2);
+				inventory.add(button3);
 				
 				inventory.row();
 			}
