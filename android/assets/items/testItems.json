@@ -1,0 +1,10 @@
+[
+{"name":"stoneAxe","damage":5.0,"description":"cruel axe","image":"stoneAxe.png"}
+{"name":"knife","damage":5.0,"description":"cruel knife","image":"knife.png"}
+{"name":"club","damage":5.0,"description":"cruel club","image":"club.png"}
+{"name":"stone","damage":0.0,"description":"stone","image":"stone.png"}
+{"name":"sand","damage":0.0,"description":"sand","image":"placeholder.png"}
+{"name":"water","damage":0.0,"description":"water","image":"placeholder.png"}
+{"name":"grass","damage":0.0,"description":"grass","image":"placeholder.png"}
+{"name":"snow","damage":0.0,"description":"snow","image":"placeholder.png"}
+]
