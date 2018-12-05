@@ -28,7 +28,6 @@ public class NoiseMaker {
 				}
 
 			}
-			System.out.println(result.toString());
 			return result;
 		}
  		

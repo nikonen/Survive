@@ -54,7 +54,7 @@ public class Player extends Sprite {
 		this.angle = 0;
 		this.tex = new Texture(Gdx.files.internal("player.png"));
 
-		this.sprite = new Sprite(this.tex, 0,0, 32, 32);
+		this.sprite = new Sprite(this.tex, 20,20, 32, 32);
 		System.out.println(sprite.getWidth() + " - - - -" + sprite.getHeight());
 		// sprite.setSize(sprite.getWidth() * 0.01f, sprite.getHeight() * 0.01f);
 

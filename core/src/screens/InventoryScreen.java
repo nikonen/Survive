@@ -63,7 +63,7 @@ public class InventoryScreen implements Screen {
 
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
 		parameter = new FreeTypeFontParameter();
-		parameter.size = 12;
+		parameter.size = 14;
 		font2 = generator.generateFont(parameter);
 		buttonStyle = new TextButtonStyle();
 		buttonStyle.font = font2;
@@ -123,12 +123,14 @@ public class InventoryScreen implements Screen {
 			labels.fontColor = com.badlogic.gdx.graphics.Color.BLACK;
 			
 			if (!invSlots.get(i).isEmpty()) {
-				Label label = new Label("item: "+invSlots.get(i).getItem(i).name +" x " + invSlots.get(i).getCount(), labels);
+				Label label = new Label(invSlots.get(i).getItem(i).name +" x " + invSlots.get(i).getCount(), labels);
+				Label description = new Label(invSlots.get(i).getItem(i).getDescription(), labels);
 				System.out.println("stack nro. " + i + " stack count: "+invSlots.get(i).getCount());
 				
 				
 				inventory.add(label);
-				inventory.add(button);
+				inventory.add(description);
+				inventory.add(button).padLeft(20);
 				inventory.add(button2);
 				inventory.add(button3);
 				

@@ -51,7 +51,6 @@ import map.Chunk;
 import map.Mapper;
 import map.Tile;
 
-import map.PathFinder;
 import objects.Item;
 import objects.Player;
 import objects.Tree;
@@ -64,6 +63,7 @@ import utils.ItemCreator;
 
 public class GameScreen extends ApplicationAdapter implements Screen, InputProcessor {
 
+	float elapsed = 0;
 	public final static float SCREEN_WIDTH = 800;
 	public final static float SCREEN_HEIGHT = 600;
 	Chunk map;
@@ -92,27 +92,22 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
 	InputMultiplexer multi = new InputMultiplexer();
 	ArrayList<Item> droppedItems;
 	double[][] random;
-	
-	PathFinder pathFinder;
+
 	InventoryScreen inventoryScreen;
 	Survive game;
-	
+
 	InventorySystem2 inv2 = new InventorySystem2();
-	
+
 	Item item2 = new Item();
-	
-
-
-	int startX = 1;
-	int startY = 1;
-	int endX = 120;
-	int endY = 120;
 
 	public void create() {
 		font = new BitmapFont();
 		map = Mapper.getMap();
 		camera = new OrthographicCamera();
-		viewport = new ExtendViewport(50,50, camera);
+		camera.setToOrtho(false);
+		camera.zoom = 0.3f;
+		viewport = new ExtendViewport(50, 50, camera);
+
 		viewport.apply();
 		debugRenderer = new Box2DDebugRenderer();
 
@@ -125,40 +120,36 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
 		control = new Control(25, 25, camera, player, world, mapper, gui);
 		// Gdx.input.setInputProcessor(control);
 
-		
 		item2 = itemSystem.getItemByName("stoneAxe");
 		player.getInventory2().addItem(item2);
 		player.getInventory2().addItem(item2);
 		player.getInventory2().addItem(item2);
-		
+
 		item2 = itemSystem.getItemByName("knife");
 		player.getInventory2().addItem(item2);
-		
-		
+
 		ArrayList<InventorySlot> inventory = new ArrayList<InventorySlot>();
 		inventory = player.getInventory2().getItems();
-		for(int i = 0; i < inventory.size(); i++) {
-			
-				if (!inventory.get(i).isEmpty()) {
-					System.out.println("stack nro. " + i + " stack count: "+inventory.get(i).getCount() +" " + inventory.get(i).getItem(i));
-					System.out.println(" - - - - index: " + i + " size: "+inventory.size());
-				}
-				
-			
+		for (int i = 0; i < inventory.size(); i++) {
+
+			if (!inventory.get(i).isEmpty()) {
+				System.out.println("stack nro. " + i + " stack count: " + inventory.get(i).getCount() + " "
+						+ inventory.get(i).getItem(i));
+				System.out.println(" - - - - index: " + i + " size: " + inventory.size());
+			}
+
 		}
 
 		gui = new Gui(player, this);
 		multi.addProcessor(gui.getStage());
-		
-		// Gdx.input.setInputProcessor(control);
+
 		multi.addProcessor(control);
 		Gdx.input.setInputProcessor(multi);
 		droppedItems = new ArrayList<Item>();
-		
+
 		inventoryScreen = new InventoryScreen(player, game, this);
 		multi.addProcessor(inventoryScreen.getStage());
-		
-		
+
 		trees = new ArrayList();
 		trees = mapper.getTrees();
 
@@ -204,14 +195,14 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
 
 		debugRenderer.render(world, camera.combined);
 
-		/** if (Gdx.input.isKeyJustPressed(Keys.T)) {
-			gui.listInventory();
-		} **/
-		
+		/**
+		 * if (Gdx.input.isKeyJustPressed(Keys.T)) { gui.listInventory(); }
+		 **/
+
 		if (Gdx.input.isKeyJustPressed(Keys.Q)) {
 			game.setScreen(new InventoryScreen(player, game, this));
 		}
-		
+
 		if (Gdx.input.isKeyJustPressed(Keys.C)) {
 			game.setScreen(new ItemCreator(game, this));
 		}
@@ -223,6 +214,7 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
 
 	public void drawMap(SpriteBatch batch) {
 
+
 		Tile tile;
 		shape = new ShapeRenderer();
 		shape.setProjectionMatrix(batch.getProjectionMatrix());
@@ -232,9 +224,10 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
 		for (int x = 0; x < Chunk.getSize(); x++) {
 			for (int y = 0; y < Chunk.getSize(); y++) {
 
-				tile = Chunk.getTile(x, y);
-				shape.setColor(tile.color);
-				shape.rect(tile.x, tile.y, tile.size, tile.size);
+					tile = Chunk.getTile(x, y);
+					shape.setColor(tile.color);
+					shape.rect(tile.x, tile.y, tile.size, tile.size);
+
 
 			}
 

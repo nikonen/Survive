@@ -47,7 +47,6 @@ public class Mapper {
 		Tree tree = null;
 		for (int row = 0; row < Chunk.SIZE; row++) {
 			for (int col = 0; col < Chunk.SIZE; col++) {
-				
 
 				if (noise[row][col] < 0.1) {
 
@@ -89,13 +88,10 @@ public class Mapper {
 					chunk.setTile(row, col, tile);
 				}
 
-
-
 			}
-			
-		}
 
 		}
+	}
 
 	public void generateHitBoxes(World world) {
 		Tile tile;
