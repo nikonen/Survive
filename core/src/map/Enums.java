@@ -2,7 +2,7 @@ package map;
 
 public class Enums {
 
-	public enum TileType{
+	public enum BlockType{
 		WATER,
 		SAND,
 		GRASS,

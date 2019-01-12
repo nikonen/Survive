@@ -41,6 +41,7 @@ public class Player extends Sprite {
 	public Animation<TextureRegion> swingingAnim;
 	public boolean swinging;
 	public float stateTime = 0; // animation state time
+	public float elapsed;
 	public InventorySystem2 inventory2;
 	public Item onHand;
 
@@ -54,7 +55,7 @@ public class Player extends Sprite {
 		this.angle = 0;
 		this.tex = new Texture(Gdx.files.internal("player.png"));
 
-		this.sprite = new Sprite(this.tex, 20,20, 32, 32);
+		this.sprite = new Sprite(this.tex, 20, 20, 16, 16);
 		System.out.println(sprite.getWidth() + " - - - -" + sprite.getHeight());
 		// sprite.setSize(sprite.getWidth() * 0.01f, sprite.getHeight() * 0.01f);
 
@@ -69,7 +70,7 @@ public class Player extends Sprite {
 
 		PolygonShape shape = new PolygonShape();
 
-		shape.setAsBox(0.3f, 0.5f); // half meters???
+		shape.setAsBox(0.3f, 0.4f);
 
 		FixtureDef def = new FixtureDef();
 		def.shape = shape;
@@ -83,13 +84,12 @@ public class Player extends Sprite {
 	}
 
 	public void swing(float delta) {
-
 		stateTime = 0;
+
 		swinging = true;
 
 	}
 
-	
 	public InventorySystem2 getInventory2() {
 		System.out.println("player get inv: " + this.inventory2.getItems().size());
 		return this.inventory2;

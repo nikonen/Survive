@@ -15,7 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import map.Chunk;
 import map.Mapper;
-import map.Tile;
+import objects.Block;
 import objects.Item;
 import objects.Player;
 import screens.GameScreen;
@@ -33,6 +33,7 @@ public class Control extends InputAdapter implements InputProcessor {
 	public World world;
 	public Mapper testMap;
 	public Gui gui;
+	public Item[][] objectLayer;
 	ItemSystem itemSystem;
 	
 	public Control(int screenWidth, int screenHeight, OrthographicCamera camera, Player player, World world, Mapper testMap, Gui gui) {
@@ -44,6 +45,7 @@ public class Control extends InputAdapter implements InputProcessor {
 		this.testMap = testMap;
 		this.gui = gui;
 		this.itemSystem = new ItemSystem();
+		this.objectLayer = testMap.getObjectLayer();
 	}
 	
 	private void setMouseClickedPos(int screenX, int screenY) {
@@ -60,18 +62,34 @@ public class Control extends InputAdapter implements InputProcessor {
 		float dist = getCursorDistance();
 
 		System.out.println("Distance: " +dist);
-		Tile remove = testMap.chunk.getTile(x, y);
+		Block remove = testMap.chunk.getBlock(x, y);
+		Item item = testMap.getObjectLayer(remove.x, remove.y);
+		System.out.println(item);
 		
 		if (dist <= maxDist) {
 			player.swing(Gdx.graphics.getDeltaTime());
-			if (remove.getTileType() != null) {
-				player.getInventory2().addItem(itemSystem.getItemByName(remove.getName()));
-				System.out.println("Got one " + remove.getTileType());
-				remove.setNull((int)remove.x,(int)remove.y);
-			}
+			if (objectLayer[(int) remove.x][(int) remove.y] == null) {
+				System.out.println("Object layer null!");
+				if (remove.getBlockType() != null) {
+					player.getInventory2().addItem(itemSystem.getBlockByName(remove.getName()));
+					System.out.println("Got one " + remove.getBlockType());
+					remove.setNull((int)remove.x,(int)remove.y);
+				}
+				
+			} else {
+				System.out.println(objectLayer[(int) remove.x][(int) remove.y].name);
+				item = itemSystem.getItemByName(item.name);
+				System.out.println(item + " added???");
+				player.getInventory2().addItem(item);
+				item.setNull();
+				objectLayer[(int) remove.x][(int) remove.y] = null;
+				
+				
+				
+
 
 			
-			
+			}	
 		}
 		
 	}

@@ -23,6 +23,13 @@ public class Item extends Entity{
 		
 	}
 	
+	public Item (Item item) {
+		this.name = item.name;
+		this.damage = item.damage;
+		this.description = item.description;
+		this.image = this.image;
+	}
+	
 	public Item(String name, float damage, String description, String image) {
 		
 		this.name = name;
@@ -30,6 +37,13 @@ public class Item extends Entity{
 		this.description = description;
 		this.image = image;
 		
+	}
+	
+	public void setNull() {
+		this.name = null;
+		this.damage = 0;
+		this.description = null;
+		this.image = null;
 	}
 	
 	public String getName() {
@@ -58,4 +72,12 @@ public class Item extends Entity{
 		
 		return name; 
 	} 
+	
+	public void setX(float x) {
+		this.x = x;
+	}
+	
+	public void setY(float y) {
+		this.y = y;
+	}
  }

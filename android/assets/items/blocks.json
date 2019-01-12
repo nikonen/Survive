@@ -1,0 +1,7 @@
+[
+	{"name":"stone", "health": "50", "description":"stone", "blockType":"stone", "image": "stone.png"},
+	{"name":"sand", "health": "20", "description":"sand", "blockType":"sand", "image": "placeholder.png"},
+	{"name":"water", "health": "0", "description":"water", "blockType":"water", "image": "placeholder.png"},
+	{"name":"grass", "health": "50", "description":"grass", "blockType":"grass", "image": "placeholder.png"},
+	{"name":"snow", "health": "10", "description":"snow", "blockType":"snow", "image": "placeholder.png"}
+]

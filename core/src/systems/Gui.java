@@ -49,10 +49,11 @@ public class Gui {
 	int i = 0;
 	GameScreen gameScreen;
 	ScrollPane scroll, infoScroll;
-	Label label;
+	Label label, timerLabel;
 	TextArea infoArea;
+	TimerSystem timerSystem;
 
-	public Gui(final Player player, GameScreen gameScreen) {
+	public Gui(final Player player, GameScreen gameScreen, TimerSystem timer) {
 		hidden = true;
 		font = new BitmapFont();
 		this.player = player;
@@ -64,6 +65,8 @@ public class Gui {
 		infoScroll = new ScrollPane(label, skin);
 		infoScroll.pack();
 		infoScroll.setSize(400, 150);
+		this.timerSystem = timer;
+		
 		
 		// table.debug();
 		table.setFillParent(true);
@@ -78,6 +81,8 @@ public class Gui {
 		scroll.layout();
 		stringBuilder = new StringBuilder();
 		
+		timerLabel = new Label(" ", skin);
+		timerLabel.setText(timerSystem.gameTime());
 		Label hunger = new Label("Hunger: ", new Label.LabelStyle(font, Color.RED));
 		Label thirst = new Label("Thirst: ", new Label.LabelStyle(font, Color.RED));
 		fps = new Label("FPS: ", new Label.LabelStyle(font, Color.RED));
@@ -85,6 +90,8 @@ public class Gui {
 		stringBuilder.append(Gdx.graphics.getFramesPerSecond());
 		fps.setText(" " + fpss);
 		table.top().left();
+		table.add(timerLabel);
+		table.row();
 		table.add(hunger);
 		table.add(hungerBar);
 		table.row();
@@ -110,7 +117,7 @@ public class Gui {
 		return this.stage;
 	}
 
-	public void listInventory() {
+	/** public void listInventory() {
 		System.out.println("Listing");
 		if (hidden) {
 			this.hidden = false;
@@ -174,13 +181,14 @@ public class Gui {
 			this.hidden = true;
 		}
 
-	}
+	} **/
 
 	public void update() {
 		// hungerBar.setValue(player.getHunger().getStarvation());
 		infoScroll.scrollTo(0, 0, 0, 0);
 		fpss = Gdx.graphics.getFramesPerSecond();
 		fps.setText(" " + fpss);
+		timerLabel.setText(timerSystem.gameTime());
 
 	}
 

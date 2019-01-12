@@ -1,0 +1,5 @@
+[
+{"name":"stoneAxe","damage":5.0,"description":"cruel axe","image":"stoneAxe.png"}
+{"name":"knife","damage":5.0,"description":"cruel knife","image":"knife.png"}
+{"name":"club","damage":5.0,"description":"cruel club","image":"club.png"}
+]

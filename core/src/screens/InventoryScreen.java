@@ -72,8 +72,11 @@ public class InventoryScreen implements Screen {
 		this.inventory.setFillParent(true);
 		this.scroll = new ScrollPane(inventory, skin);
 		scroll.setFillParent(true);
-
+		scroll.scaleBy(0.001f);
 		scroll.layout();
+		scroll.setForceScroll(false, true);
+		scroll.setDebug(true);
+		scroll.validate();
 		inventory.pack();
 		this.inventory.left().top();
 		this.stage.addActor(scroll);
@@ -123,7 +126,7 @@ public class InventoryScreen implements Screen {
 			labels.fontColor = com.badlogic.gdx.graphics.Color.BLACK;
 			
 			if (!invSlots.get(i).isEmpty()) {
-				Label label = new Label(invSlots.get(i).getItem(i).name +" x " + invSlots.get(i).getCount(), labels);
+				Label label = new Label(invSlots.get(i).getItem(i).getName() +" x " + invSlots.get(i).getCount(), labels);
 				Label description = new Label(invSlots.get(i).getItem(i).getDescription(), labels);
 				System.out.println("stack nro. " + i + " stack count: "+invSlots.get(i).getCount());
 				

@@ -49,8 +49,7 @@ import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import map.Chunk;
 import map.Mapper;
-import map.Tile;
-
+import objects.Block;
 import objects.Item;
 import objects.Player;
 import objects.Tree;
@@ -59,6 +58,7 @@ import systems.Gui;
 import systems.InventorySlot;
 import systems.InventorySystem2;
 import systems.ItemSystem;
+import systems.TimerSystem;
 import utils.ItemCreator;
 
 public class GameScreen extends ApplicationAdapter implements Screen, InputProcessor {
@@ -92,13 +92,18 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
 	InputMultiplexer multi = new InputMultiplexer();
 	ArrayList<Item> droppedItems;
 	double[][] random;
-
+	Item[][] objectLayer;
 	InventoryScreen inventoryScreen;
 	Survive game;
 
 	InventorySystem2 inv2 = new InventorySystem2();
 
 	Item item2 = new Item();
+	
+	ConeLight flashLight;
+	RayHandler ray;
+	TimerSystem timer;
+	
 
 	public void create() {
 		font = new BitmapFont();
@@ -140,7 +145,8 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
 
 		}
 
-		gui = new Gui(player, this);
+		timer = new TimerSystem();
+		gui = new Gui(player, this, timer);
 		multi.addProcessor(gui.getStage());
 
 		multi.addProcessor(control);
@@ -149,11 +155,20 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
 
 		inventoryScreen = new InventoryScreen(player, game, this);
 		multi.addProcessor(inventoryScreen.getStage());
-
 		trees = new ArrayList();
-		trees = mapper.getTrees();
-
-	}
+		objectLayer = new Item[Chunk.getSize()][Chunk.getSize()];
+		objectLayer = mapper.getObjectLayer();
+		
+		ray = new RayHandler(world);
+		
+		ray.setAmbientLight(0, 0, 0, 0.01f);
+		ray.setBlurNum(3);
+		PointLight pl = new PointLight(ray, 128, new Color(1,1,0,0.9f), 3,-5,2);
+		pl.attachToBody(player.body);
+		//ConeLight flashLight = new ConeLight(ray, 10, Color.YELLOW, 5,player.body.getPosition().x, player.body.getPosition().y , -90, 45);
+		//flashLight.attachToBody(player.body);
+		//PointLight pl2 = new PointLight(ray, 128, new Color(1,0,1,1f), 10,5,2);
+	}	
 
 	public GameScreen(Survive game) {
 		this.game = game;
@@ -177,6 +192,8 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
 		camera.update();
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		timer.update();
+		System.out.println(timer.gameTime());
 		batch.setProjectionMatrix(camera.combined);
 		drawMap(batch);
 		batch.begin();
@@ -191,10 +208,6 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
 			tree.update(batch);
 		}
 
-		batch.end();
-
-		debugRenderer.render(world, camera.combined);
-
 		/**
 		 * if (Gdx.input.isKeyJustPressed(Keys.T)) { gui.listInventory(); }
 		 **/
@@ -207,15 +220,61 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
 			game.setScreen(new ItemCreator(game, this));
 		}
 
+		for (int x = 0; x < Chunk.getSize(); x++) {
+			for (int y = 0; y < Chunk.getSize(); y++) {
+				Item item = objectLayer[x][y];
+				if (item != null) {
+
+					batch.draw(texture, item.x, item.y, 1, 1);
+				}
+
+			}
+		}
+
+		batch.end();
+
+		debugRenderer.render(world, camera.combined);
+
+		updateLight();
+		ray.setCombinedMatrix(camera);
+		ray.updateAndRender();
+		
 		gui.update();
 		gui.getStage().act();
 		gui.getStage().draw();
+
+	}
+	
+	public void updateLight() {
+		if(timer.getHour() >= 1) {
+			ray.setAmbientLight(0, 0, 0, 0.1f);
+		}
+		if(timer.getHour() >= 2) {
+			ray.setAmbientLight(0, 0, 0, 0.2f);
+		}
+		if(timer.getHour() >= 3) {
+			ray.setAmbientLight(0, 0, 0, 0.3f);
+		}
+		if(timer.getHour() >= 4) {
+			ray.setAmbientLight(0, 0, 0, 0.4f);
+		}
+		if(timer.getHour() >= 5) {
+			ray.setAmbientLight(0, 0, 0, 0.5f);
+		}
+		if(timer.getHour() >= 6) {
+			ray.setAmbientLight(0, 0, 0, 0.6f);
+		}
+		if(timer.getHour() >= 7) {
+			ray.setAmbientLight(0, 0, 0, 0.7f);
+		}
+		if(timer.getHour() >= 8) {
+			ray.setAmbientLight(0, 0, 0, 0.8f);
+		}
 	}
 
 	public void drawMap(SpriteBatch batch) {
 
-
-		Tile tile;
+		Block tile;
 		shape = new ShapeRenderer();
 		shape.setProjectionMatrix(batch.getProjectionMatrix());
 		shape.setTransformMatrix(batch.getTransformMatrix());
@@ -224,10 +283,9 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
 		for (int x = 0; x < Chunk.getSize(); x++) {
 			for (int y = 0; y < Chunk.getSize(); y++) {
 
-					tile = Chunk.getTile(x, y);
-					shape.setColor(tile.color);
-					shape.rect(tile.x, tile.y, tile.size, tile.size);
-
+				tile = Chunk.getBlock(x, y);
+				shape.setColor(tile.color);
+				shape.rect(tile.x, tile.y, 1, 1);
 
 			}
 
@@ -241,7 +299,7 @@ public class GameScreen extends ApplicationAdapter implements Screen, InputProce
 
 	public static void removeBodies() {
 
-		tiles = Tile.getToBeDestroyed();
+		tiles = Block.getToBeDestroyed();
 
 		if (!world.isLocked()) {
 			if (tiles != null && tiles.size() > 0) {

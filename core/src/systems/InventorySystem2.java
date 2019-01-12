@@ -7,7 +7,7 @@ import objects.Item;
 
 public class InventorySystem2 {
 
-	static final int INV_SIZE = 16;
+	static final int INV_SIZE = 50;
 	ArrayList<InventorySlot> slots;
 
 	public InventorySystem2() {
@@ -31,7 +31,7 @@ public class InventorySystem2 {
 				
 			}
 			
-			if (slots.get(i).getType().equals(e.toString()) && slots.get(i).stack.size() < slots.get(i).MAX_STACK) {
+			if (slots.get(i).getType().equals(e.getName()) && slots.get(i).stack.size() < slots.get(i).MAX_STACK) {
 				slots.get(i).addItem(e);
 				System.out.println("Added item " + e + " to existing stack " + i);
 				break;

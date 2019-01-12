@@ -2,10 +2,6 @@
 	{"name":"stoneAxe", "damage":"10", "description":"Cruel axe", "image": "stoneAxe.png"},
 	{"name":"knife", "damage":"13", "description":"Cruel knife", "image": "knife.png"},
 	{"name":"club", "damage":"12", "description":"Cruel club", "image": "club.png"},
-	{"name":"stone", "damage":"0", "description":"stone", "image": "stone.png"},
-	{"name":"sand", "damage":"0", "description":"Sand", "image": "placeholder.png"},
-	{"name":"water", "damage":"0", "description":"Water", "image": "placeholder.png"},
-	{"name":"grass", "damage":"0", "description":"Grass", "image": "placeholder.png"},
-	{"name":"snow", "damage":"0", "description":"Snow", "image": "placeholder.png"}
+
 	
 ]

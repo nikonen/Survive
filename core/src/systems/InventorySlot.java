@@ -27,6 +27,7 @@ public class InventorySlot {
 
 	public String getType() {
 
+		System.out.println("GET TYPE: " + this.stack.get(0).toString());
 		return this.stack.get(0).toString();
 
 	}
@@ -43,9 +44,9 @@ public class InventorySlot {
 		return this;
 	}
 	
-	public Item getItem(int index) {
+	public Entity getItem(int index) {
 
-			return (Item) this.stack.get(0);
+			return (Entity) this.stack.get(0);
 
 
 	}
